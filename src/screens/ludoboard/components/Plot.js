@@ -1,71 +1,96 @@
-import { Animated, Easing, Image, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useMemo, useRef } from 'react'
+import { StyleSheet, View } from 'react-native'
+import React from 'react'
 import { COLORS } from '../../../enums/StyleGuides'
 import Pile from './child/Pile'
+import { useDispatch } from 'react-redux'
+import { unfreezeDice, updatePlayerPieceValue } from '../../../redux/reducers/gameSlice'
+import { StartingCells } from '../../../helpers/PlotData'
 
 const Plot = (props) => {
-  const { color } = props
+  const { color, data, player } = props
 
-  const rotation = useRef(new Animated.Value(0)).current
+  const dispatch = useDispatch()
 
-  useEffect(() => {
-    const rotateAnimation = Animated.loop(
-      Animated.timing(rotation, {
-        toValue: 1,
-        duration: 1500,
-        easing: Easing.linear,
-        useNativeDriver: true
-      })
+  const handlePress = (value) => {
+    let playerNo = value?.id[0]
+
+    switch (playerNo) {
+      case 'A':
+        playerNo = 'player1';
+        break;
+      case 'B':
+        playerNo = 'player2';
+        break;
+      case 'C':
+        playerNo = 'player3';
+        break;
+      case 'D':
+        playerNo = 'player4';
+        break;
+    }
+    dispatch(updatePlayerPieceValue({
+      playerNo: playerNo,
+      pieceId: value.id,
+      pos: StartingCells[parseInt(playerNo.match(/\d+/)[0], 10) - 1],
+      travelCount: 1
+    })
     )
-    rotateAnimation.start()
-    return () => rotateAnimation.stop()
-  }, [])
-
-  const rotateWhite = useMemo(() => rotation.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg']
-  }), [rotation])
+    dispatch(unfreezeDice())
+  }
 
   return (
     <View style={styles.container(color)}>
       <View style={styles.innerContainer}>
 
         <View style={styles.row}>
+
           <View style={styles.circle(color)}>
-            <Animated.View
-              style={[styles.animated,
-              { transform: [{ rotate: rotateWhite }] }
-              ]}
+            <Pile
+              pieceNo={0}
+              color={color}
+              data={data}
+              player={player}
+              onPress={handlePress}
             />
-            <Pile color={color} />
+
           </View>
+
           <View style={styles.circle(color)}>
-            <Animated.View
-              style={[styles.animated,
-              { transform: [{ rotate: rotateWhite }] }
-              ]}
+            <Pile
+              pieceNo={1}
+              color={color}
+              data={data}
+              player={player}
+              onPress={handlePress}
             />
-            <Pile color={color} />
+
           </View>
+
         </View>
 
         <View style={styles.row}>
+
           <View style={styles.circle(color)}>
-            <Animated.View
-              style={[styles.animated,
-              { transform: [{ rotate: rotateWhite }] }
-              ]}
+            <Pile
+              pieceNo={2}
+              color={color}
+              data={data}
+              player={player}
+              onPress={handlePress}
             />
-            <Pile color={color} />
+
           </View>
+
           <View style={styles.circle(color)}>
-            <Animated.View
-              style={[styles.animated,
-              { transform: [{ rotate: rotateWhite }] }
-              ]}
+            <Pile
+              pieceNo={3}
+              color={color}
+              data={data}
+              player={player}
+              onPress={handlePress}
             />
-            <Pile color={color} />
           </View>
+
         </View>
 
       </View>
@@ -106,13 +131,5 @@ const styles = StyleSheet.create({
     backgroundColor: color,
     alignItems: 'center',
     justifyContent: 'center'
-  }),
-  animated: {
-    height: 20,
-    width: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderStyle: 'dashed',
-    borderColor: '#f5f5f5'
-  }
+  })
 })

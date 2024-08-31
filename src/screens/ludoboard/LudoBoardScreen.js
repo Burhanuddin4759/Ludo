@@ -73,6 +73,8 @@ const LudoBoardScreen = () => {
                 <View style={styles.plotContainer}>
                     <Plot
                         color={COLORS.GREEN}
+                        player={3}
+                        data={player3}
                     />
                     <VerticalPath
                         data={Plot2Data}
@@ -80,6 +82,8 @@ const LudoBoardScreen = () => {
                     />
                     <Plot
                         color={COLORS.YELLOW}
+                        player={4}
+                        data={player4}
                     />
                 </View>
                 <View style={styles.midContainer}>
@@ -97,6 +101,8 @@ const LudoBoardScreen = () => {
                 <View style={styles.plotContainer}>
                     <Plot
                         color={COLORS.RED}
+                        player={2}
+                        data={player2}
                     />
                     <VerticalPath
                         data={Plot4Data}
@@ -104,6 +110,8 @@ const LudoBoardScreen = () => {
                     />
                     <Plot
                         color={COLORS.BLUE}
+                        data={player1}
+                        player={1}
                     />
                 </View>
             </View>
