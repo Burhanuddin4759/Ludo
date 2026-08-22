@@ -1,12 +1,19 @@
 import { Animated, Easing, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef } from 'react';
 import { COLORS } from '../../../../enums/StyleGuides';
 import { useSelector } from 'react-redux';
 import { selectCellSelection, selectDiceNumber, selectPocketPileSelection } from '../../../../redux/reducers/gameSelector';
+import PileGreen from '../../../../assets/images/piles/green.png'
+import PileBlue from '../../../../assets/images/piles/blue.png'
+import PileRed from '../../../../assets/images/piles/red.png'
+import PileYellow from '../../../../assets/images/piles/yellow.png'
+
 
 const Pile = (props) => {
     const { color, data, player, pieceNo, onPress, pieceId, cell } = props;
-    console.log('data--->', data[pieceNo].pos)
+    // console.log('data--->', data[pieceNo]?.pos)
+
+    const rotation = useRef(new Animated.Value(0)).current
     const currentPlayerPileSelection = useSelector(selectPocketPileSelection)
     const currentPlayerCellSelection = useSelector(selectCellSelection)
     const diceNo = useSelector(selectDiceNumber)
@@ -22,22 +29,21 @@ const Pile = (props) => {
 
 
     // Define the pile source based on the color prop
-    const getImageSource = () => {
+    const getPileImage = useMemo(() => {
         switch (color) {
             case COLORS.BLUE:
-                return require('../../../../assets/images/piles/blue.png');
+                return PileBlue;
             case COLORS.GREEN:
-                return require('../../../../assets/images/piles/green.png');
+                return PileGreen;
             case COLORS.YELLOW:
-                return require('../../../../assets/images/piles/yellow.png');
+                return PileYellow;
             case COLORS.RED:
-                return require('../../../../assets/images/piles/red.png');
+                return PileRed;
             default:
                 return null;
         }
-    };
+    }, [color]);
 
-    const rotation = useRef(new Animated.Value(0)).current
 
     useEffect(() => {
         const rotateAnimation = Animated.loop(
@@ -59,12 +65,12 @@ const Pile = (props) => {
 
     return (
         <TouchableOpacity
-            onPress={() => onPress(data[pieceNo])}
+            // onPress={() => onPress(data[pieceNo])}
+            onPress={onPress}
             activeOpacity={0.5}
             disabled={!(cell ? isCellEnabled && isForwardable() : isPileEnabled)}
             style={styles.pile}>
             {
-                data && data[pieceNo]?.pos === 0 &&
                 (cell ? isCellEnabled && isForwardable() : isPileEnabled) &&
                 <Animated.View
                     style={[styles.animated,
@@ -73,18 +79,16 @@ const Pile = (props) => {
                 />
             }
 
-            {
-                data && data[pieceNo]?.pos === 0 &&
-                <Image
-                    source={getImageSource()}
-                    style={styles.pileImg}
-                />
-            }
+            <Image
+                source={getPileImage}
+                style={styles.pileImg}
+            />
+
         </TouchableOpacity>
     );
 };
 
-export default Pile;
+export default memo(Pile);
 
 const styles = StyleSheet.create({
     pile: {

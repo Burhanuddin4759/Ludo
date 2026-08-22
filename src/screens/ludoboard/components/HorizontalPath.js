@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
 import Cell from '../../../components/components/Cell'
 
 const HorizontalPath = (props) => {
   const { data, color } = props
 
-  const grouping = useMemo(() => {
+  const groupedCells = useMemo(() => {
     const grouped = []
     for (let i = 0; i < data.length; i += 6) {
       grouped.push(data.slice(i, i + 6))
@@ -16,13 +16,17 @@ const HorizontalPath = (props) => {
   return (
     <View style={styles.container}>
       {
-        grouping.map((item, index) => {
+        groupedCells.map((group, index) => {
           return (
-            <View key={index} style={{ flexDirection: 'row', height: '33.3%', width: '100%'}}>
+            <View key={`group-${index}`} style={{ flexDirection: 'row', height: '33.3%', width: '100%' }}>
               {
-                item.map((id) => {
+                group.map((id) => {
                   return (
-                    <Cell key={`cell- ${id}`} cellData={id} color={color} />
+                    <Cell
+                      key={`cell- ${id}`}
+                      id={id}
+                      color={color}
+                    />
                   )
                 })
               }
@@ -34,7 +38,7 @@ const HorizontalPath = (props) => {
   )
 }
 
-export default HorizontalPath
+export default memo(HorizontalPath)
 
 const styles = StyleSheet.create({
   container: {

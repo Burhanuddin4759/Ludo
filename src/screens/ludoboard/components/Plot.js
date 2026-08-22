@@ -43,57 +43,58 @@ const Plot = (props) => {
       <View style={styles.innerContainer}>
 
         <View style={styles.row}>
-
-          <View style={styles.circle(color)}>
-            <Pile
-              pieceNo={0}
-              color={color}
-              data={data}
-              player={player}
-              onPress={handlePress}
-            />
-
-          </View>
-
-          <View style={styles.circle(color)}>
-            <Pile
-              pieceNo={1}
-              color={color}
-              data={data}
-              player={player}
-              onPress={handlePress}
-            />
-
-          </View>
-
+          <Pocket
+            pieceNo={0}
+            color={color}
+            data={data}
+            player={player}
+            handlePress={handlePress}
+          />
+          <Pocket
+            pieceNo={1}
+            color={color}
+            data={data}
+            player={player}
+            onPress={handlePress}
+          />
         </View>
 
         <View style={styles.row}>
-
-          <View style={styles.circle(color)}>
-            <Pile
-              pieceNo={2}
-              color={color}
-              data={data}
-              player={player}
-              onPress={handlePress}
-            />
-
-          </View>
-
-          <View style={styles.circle(color)}>
-            <Pile
-              pieceNo={3}
-              color={color}
-              data={data}
-              player={player}
-              onPress={handlePress}
-            />
-          </View>
-
+          <Pocket
+            pieceNo={2}
+            color={color}
+            data={data}
+            player={player}
+            onPress={handlePress}
+          />
+          <Pocket
+            pieceNo={3}
+            color={color}
+            data={data}
+            player={player}
+            onPress={handlePress}
+          />
         </View>
-
       </View>
+    </View>
+  )
+}
+
+const Pocket = ({ pieceNo, color, player, data, handlePress }) => {
+  return (
+    <View style={styles.circle(color)}>
+      {
+        data && data[pieceNo]?.pos === 0 &&
+        (
+          <Pile
+            player={player}
+            color={color}
+            onPress={() => {
+              handlePress(data[pieceNo])
+            }}
+          />
+        )
+      }
     </View>
   )
 }
@@ -102,7 +103,7 @@ export default Plot
 
 const styles = StyleSheet.create({
   container: (color) => ({
-    height: '100%',
+    // height: '100%',
     width: '40%',
     justifyContent: 'center',
     alignItems: 'center',

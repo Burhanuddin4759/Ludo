@@ -1,17 +1,30 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { ArrowSpots, SafeSpots, StarSpots, TurningPoints } from '../../helpers/PlotData'
 import { COLORS } from '../../enums/StyleGuides'
 import { ArrowRightIcon, StarIcon } from 'react-native-heroicons/outline'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectCurrentPositions } from '../../redux/reducers/gameSelector'
+import Pile from '../../screens/ludoboard/components/child/Pile'
 
 const Cell = (props) => {
 
-    const { cellData, color } = props
+    const { id, color } = props
+    const plottedPieces = useSelector(selectCurrentPositions)
 
-    const isSafeSpots = useMemo(() => SafeSpots.includes(cellData), [cellData])
-    const isStarSpots = useMemo(() => StarSpots.includes(cellData), [cellData])
-    const isArrowSpots = useMemo(() => ArrowSpots.includes(cellData), [cellData])
-    const isTurningSpots = useMemo(() => TurningPoints.includes(cellData), [cellData])
+    const dispatch = useDispatch()
+
+    const isSafeSpots = useMemo(() => SafeSpots.includes(id), [id])
+    const isStarSpots = useMemo(() => StarSpots.includes(id), [id])
+    const isArrowSpots = useMemo(() => ArrowSpots.includes(id), [id])
+    const isTurningSpots = useMemo(() => TurningPoints.includes(id), [id])
+
+    const piecesAtPosition = useMemo(() =>
+        plottedPieces.filter(item => item.pos == id),
+        [plottedPieces, id]
+    )
+
+    const handlePress = useCallback((playerNo, pieceId) => { }, [dispatch, id])
 
     return (
         <View style={[styles.cell,
@@ -30,16 +43,59 @@ const Cell = (props) => {
                     size={20}
                     color={'grey'}
                 />}
+
+            {
+                piecesAtPosition.map((piece, index) => {
+                    const playerNo =
+                        piece.id.slice(0, 1) === 'A'
+                            ? 1
+                            : piece.id.slice(0, 1) === 'B'
+                                ? 2
+                                : piece.id.slice(0, 1) === 'C'
+                                    ? 3
+                                    : 4
+
+                    const pieceColor =
+                        piece.id.slice(0, 1) === 'A'
+                            ? COLORS.RED
+                            : piece.id.slice(0, 1) === 'B'
+                                ? COLORS.GREEN
+                                : piece.id.slice(0, 1) === 'C'
+                                    ? COLORS.YELLOW
+                                    : COLORS.BLUE
+
+                    return (
+                        <View
+                            key={piece.id}
+                            style={[styles.pieceContainer, {
+                                transform: [
+                                    { scale: piecesAtPosition.length === 1 ? 1 : 0.7 },
+                                    { translateX: piecesAtPosition.length === 1 ? 0 : index % 2 === 0 ? -6 : 6 },
+                                    { translateY: piecesAtPosition.length === 1 ? 0 : index < 2 ? -6 : 6 }
+                                ]
+                            }]}
+                        >
+                            <Pile
+                                cell={true}
+                                player={playerNo}
+                                onPress={() => handlePress(playerNo, piece.id)}
+                                pieceId={piece.id}
+                                color={pieceColor}
+                            />
+                        </View>
+                    )
+                })
+            }
             {
                 !isArrowSpots && !isStarSpots &&
-                <Text>{cellData}</Text>
+                <Text>{id}</Text>
             }
 
         </View>
     )
 }
 
-export default Cell
+export default React.memo(Cell)
 
 const styles = StyleSheet.create({
     cell: {
@@ -48,5 +104,11 @@ const styles = StyleSheet.create({
         borderColor: COLORS.BORDER_COLOR,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    pieceContainer: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        zIndex: 99
     }
 })
