@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native'
+import { Alert, StyleSheet, View } from 'react-native'
 import React from 'react'
 import { COLORS } from '../../../enums/StyleGuides'
 import Pile from './child/Pile'
@@ -12,7 +12,7 @@ const Plot = (props) => {
   const dispatch = useDispatch()
 
   const handlePress = (value) => {
-    let playerNo = value?.id[0]
+    let playerNo = value?.id?.slice(0, 1)
 
     switch (playerNo) {
       case 'A':
@@ -55,7 +55,7 @@ const Plot = (props) => {
             color={color}
             data={data}
             player={player}
-            onPress={handlePress}
+            handlePress={handlePress}
           />
         </View>
 
@@ -65,14 +65,14 @@ const Plot = (props) => {
             color={color}
             data={data}
             player={player}
-            onPress={handlePress}
+            handlePress={handlePress}
           />
           <Pocket
             pieceNo={3}
             color={color}
             data={data}
             player={player}
-            onPress={handlePress}
+            handlePress={handlePress}
           />
         </View>
       </View>

@@ -10,8 +10,7 @@ import PileYellow from '../../../../assets/images/piles/yellow.png'
 
 
 const Pile = (props) => {
-    const { color, data, player, pieceNo, onPress, pieceId, cell } = props;
-    // console.log('data--->', data[pieceNo]?.pos)
+    const { color, player, onPress, pieceId, cell } = props;
 
     const rotation = useRef(new Animated.Value(0)).current
     const currentPlayerPileSelection = useSelector(selectPocketPileSelection)
@@ -65,7 +64,6 @@ const Pile = (props) => {
 
     return (
         <TouchableOpacity
-            // onPress={() => onPress(data[pieceNo])}
             onPress={onPress}
             activeOpacity={0.5}
             disabled={!(cell ? isCellEnabled && isForwardable() : isPileEnabled)}
@@ -93,7 +91,7 @@ export default memo(Pile);
 const styles = StyleSheet.create({
     pile: {
         flex: 1,
-        position: 'absolute',
+        // position: 'absolute',
         top: '-50%',
         justifyContent: 'center',
         alignItems: 'center',

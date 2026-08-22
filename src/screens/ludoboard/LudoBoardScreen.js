@@ -65,16 +65,16 @@ const LudoBoardScreen = () => {
 
         <Wrapper>
             <View style={styles.DiceRow}>
-                <Dice player={3} data={player3} color={COLORS.GREEN} />
-                <Dice player={4} data={player4} rotate color={COLORS.YELLOW} />
+                <Dice player={2} data={player2} color={COLORS.GREEN} />
+                <Dice player={3} data={player3} rotate color={COLORS.YELLOW} />
             </View>
 
             <View style={styles.board}>
                 <View style={styles.plotContainer}>
                     <Plot
                         color={COLORS.GREEN}
-                        player={3}
-                        data={player3}
+                        player={2}
+                        data={player2}
                     />
                     <VerticalPath
                         data={Plot2Data}
@@ -82,8 +82,8 @@ const LudoBoardScreen = () => {
                     />
                     <Plot
                         color={COLORS.YELLOW}
-                        player={4}
-                        data={player4}
+                        player={3}
+                        data={player3}
                     />
                 </View>
                 <View style={styles.midContainer}>
@@ -92,10 +92,10 @@ const LudoBoardScreen = () => {
                         color={COLORS.GREEN}
                     />
                     <MidSquare
-                        player1={player1}
-                        player2={player2}
-                        player3={player3}
-                        player4={player4}
+                    player1={player1}
+                    player2={player2}
+                    player3={player3}
+                    player4={player4}
                     />
                     <HorizontalPath
                         data={Plot3Data}
@@ -105,8 +105,8 @@ const LudoBoardScreen = () => {
                 <View style={styles.plotContainer}>
                     <Plot
                         color={COLORS.RED}
-                        player={2}
-                        data={player2}
+                        player={1}
+                        data={player1}
                     />
                     <VerticalPath
                         data={Plot4Data}
@@ -114,15 +114,15 @@ const LudoBoardScreen = () => {
                     />
                     <Plot
                         color={COLORS.BLUE}
-                        data={player1}
-                        player={1}
+                        data={player4}
+                        player={4}
                     />
                 </View>
             </View>
 
             <View style={styles.DiceRow}>
-                <Dice data={player2} player={2} color={COLORS.RED} />
-                <Dice data={player1} player={1} rotate color={COLORS.BLUE} />
+                <Dice data={player1} player={1} color={COLORS.RED} />
+                <Dice data={player4} player={4} rotate color={COLORS.BLUE} />
             </View>
 
             {

@@ -36,19 +36,19 @@ export const gameSlice = createSlice({
         updatePlayerChance: (state, action) => {
             state.chancePlayer = action.payload.chancePlayer;
             state.touchDiceBlock = false;
-            state.isDiceRolled = false
+            state.isDiceRolled = false;
         },
         updatePlayerPieceValue: (state, action) => {
-            const {playerNo, pieceId, pos, travelCount} = action.payload
-            const playerPieces = state[playerNo]
-            const piece = playerPieces.find(p => p.id === pieceId)
-            state.pileSelectionPlayer = -1
+            const { playerNo, pieceId, pos, travelCount } = action.payload;
+            const playerPieces = state[playerNo];
+            const piece = playerPieces.find(p => p.id === pieceId);
+            state.pileSelectionPlayer = -1;
             if (piece) {
-                piece.pos = pos
-                piece.travelCount = travelCount
+                piece.pos = pos;
+                piece.travelCount = travelCount;
                 const currentPositionIndex = state.currentPositions.findIndex(
                     p => p.id === pieceId
-                )
+                );
                 if (pos == 0) {
                     if (currentPositionIndex !== -1) {
                         state.currentPositions.splice(currentPositionIndex, 1)
@@ -58,13 +58,14 @@ export const gameSlice = createSlice({
                     if (currentPositionIndex !== -1) {
                         state.currentPositions[currentPositionIndex] = {
                             id: pieceId,
-                            pos
-                        }
+                            pos,
+                        };
                     }
                     else {
                         state.currentPositions.push({ id: pieceId, pos })
                     }
                 }
+                
             }
         }
     }

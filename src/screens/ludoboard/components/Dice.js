@@ -7,12 +7,12 @@ import DiceRoll from '../../../assets/animation/diceroll.json'
 import Arrow from '../../../assets/images/arrow.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCurrentPlayerChance, selectDiceNumber, selectDiceRolled } from '../../../redux/reducers/gameSelector'
-import { enablePileSelection, updateDiceNo, updatePlayerChance } from '../../../redux/reducers/gameSlice'
+import { enableCellSelection, enablePileSelection, updateDiceNo, updatePlayerChance } from '../../../redux/reducers/gameSlice'
 
 const Dice = (props) => {
 
     const { rotate, color, player, data } = props
-    console.log('rotate', rotate,'color', color, 'player', player)
+    console.log('rotate', rotate, 'color', color, 'player', player)
 
     const currentPlayerChance = useSelector(selectCurrentPlayerChance)
     const diceNo = useSelector(selectDiceNumber)
@@ -55,8 +55,9 @@ const Dice = (props) => {
     const handleDicePress = async () => {
         const newDiceNo = Math.floor(Math.random() * 6) + 1
         // const newDiceNo = 6
-        setDiceRolling(true)
-        await delay(1000)
+        // playSound('dice_roll');
+        setDiceRolling(true);
+        await delay(800)
         dispatch(updateDiceNo({ diceNo: newDiceNo }))
         setDiceRolling(false)
 
@@ -72,7 +73,7 @@ const Dice = (props) => {
                 if (chancePlayer > 4) {
                     chancePlayer = 1
                 }
-                await delay(800)
+                await delay(700)
                 dispatch(updatePlayerChance({ chancePlayer: chancePlayer }))
             }
         }
@@ -89,54 +90,16 @@ const Dice = (props) => {
                 if (chancePlayer > 4) {
                     chancePlayer = 1
                 }
-                await delay(800)
+                await delay(700)
                 dispatch(updatePlayerChance({ chancePlayer: chancePlayer }))
                 return
             }
             if (newDiceNo == 6) {
-                enablePileSelection({ playerNo: player })
+                dispatch(enablePileSelection({ playerNo: player }))
             }
-            dispatch(enablePileSelection({ playerNo: player }))
+            dispatch(enableCellSelection({ playerNo: player }))
         }
     }
-
-    // const handleDicePress = async () => {
-    //     const newDiceNo = Math.floor(Math.random() * 6) + 1; // Corrected dice roll range (1-6)
-    //     setDiceRolling(true);
-    //     await delay(1000); // Delay before setting dice number
-    //     dispatch(updateDiceNo({ diceNo: newDiceNo }));
-    //     setDiceRolling(false);
-
-    //     const isAnyPieceAlive = data.some(i => i.position !== 0 && i.position !== 57);
-    //     const isAnyPieceLocked = data.some(i => i.position === 0);
-
-    //     if (!isAnyPieceAlive) {
-    //         if (newDiceNo === 6) {
-    //             dispatch(enablePileSelection({ playerNo: player }));
-    //         } else {
-    //             let nextPlayer = (player % 4) + 1; // Move to next player
-    //             await delay(800);
-    //             dispatch(updatePlayerChance({ chancePlayer: nextPlayer }));
-    //         }
-    //         return;
-    //     }
-
-    //     const canMove = playerPieces.some(
-    //         pile => pile.travelCount + newDiceNo <= 57 && pile.position !== 0
-    //     );
-
-    //     if (!canMove && (newDiceNo !== 6 || isAnyPieceLocked === -1)) {
-    //         let nextPlayer = (player % 4) + 1; // Move to next player
-    //         await delay(800);
-    //         dispatch(updatePlayerChance({ chancePlayer: nextPlayer }));
-    //         return;
-    //     }
-
-    //     if (newDiceNo === 6) {
-    //         dispatch(enablePileSelection({ playerNo: player }));
-    //     }
-    // };
-
 
     return (
         <View style={[styles.container, { transform: [{ scaleX: rotate ? -1 : 1 }] }]}>
@@ -179,7 +142,7 @@ const Dice = (props) => {
             {
                 currentPlayerChance === player && diceRolling &&
                 <LottieView
-                    loop={false}
+                    loop={true}
                     source={DiceRoll}
                     style={styles.rollingDice}
                     autoPlay
@@ -230,6 +193,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: '10%',
         left: '20%',
+        // top:-25,
         zIndex: 99
     }
 })
