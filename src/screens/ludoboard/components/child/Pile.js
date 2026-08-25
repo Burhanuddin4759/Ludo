@@ -71,7 +71,7 @@ const Pile = (props) => {
             {
                 (cell ? isCellEnabled && isForwardable() : isPileEnabled) &&
                 <Animated.View
-                    style={[styles.animated,
+                    style={[styles.animated, { borderColor: cell ? '#666' : '#fff' },
                     { transform: [{ rotate: rotateWhite }] }
                     ]}
                 />
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 2,
         borderStyle: 'dashed',
-        borderColor: '#f5f5f5',
+        // borderColor: '#f5f5f5',
         position: 'absolute',
         top: '60%',
 

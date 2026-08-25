@@ -12,26 +12,26 @@ export const gameSlice = createSlice({
         },
         enablePileSelection: (state, action) => {
             state.touchDiceBlock = true;
-            state.pileSelectionPlayer = action.payload.playerNo
+            state.pileSelectionPlayer = action.payload.playerNo;
         },
         enableCellSelection: (state, action) => {
             state.touchDiceBlock = true;
-            state.cellSelectionPlayer = action.payload.playerNo
+            state.cellSelectionPlayer = action.payload.playerNo;
         },
-        disableTouch: (state, action) => {
+        disableTouch: state => {
             state.touchDiceBlock = true;
             state.cellSelectionPlayer = -1;
-            state.pileSelectionPlayer = -1
+            state.pileSelectionPlayer = -1;
         },
-        unfreezeDice: (state, action) => {
+        unfreezeDice: state => {
             state.touchDiceBlock = false;
             state.isDiceRolled = false;
         },
         updateFireworks: (state, action) => {
-            state.fireworks = action.payload
+            state.fireworks = action.payload;
         },
         announceWinner: (state, action) => {
-            state.winner = action.payload
+            state.winner = action.payload;
         },
         updatePlayerChance: (state, action) => {
             state.chancePlayer = action.payload.chancePlayer;

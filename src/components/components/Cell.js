@@ -6,6 +6,7 @@ import { ArrowRightIcon, StarIcon } from 'react-native-heroicons/outline'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCurrentPositions } from '../../redux/reducers/gameSelector'
 import Pile from '../../screens/ludoboard/components/child/Pile'
+import { handleForwardThunk } from '../../redux/reducers/gameAction'
 
 const Cell = (props) => {
 
@@ -24,7 +25,10 @@ const Cell = (props) => {
         [plottedPieces, id]
     )
 
-    const handlePress = useCallback((playerNo, pieceId) => { }, [dispatch, id])
+    const handlePress = useCallback(
+        (playerNo, pieceId) => {
+            dispatch(handleForwardThunk(playerNo, pieceId, id))
+        }, [dispatch, id])
 
     return (
         <View style={[styles.cell,

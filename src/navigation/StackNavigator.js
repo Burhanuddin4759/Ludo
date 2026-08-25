@@ -7,9 +7,9 @@ import Home from '../screens/home/Home'
 const StackNavigator = () => {
     const Stack = createNativeStackNavigator()
     return (
-        <Stack.Navigator initialRouteName='LudoBoard' screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName='SplashScreen' screenOptions={{ headerShown: false }}>
             <Stack.Screen name='SplashScreen' component={SplashScreen} />
-            <Stack.Screen name='Home' component={Home} />
+            <Stack.Screen name='HomeScreen' component={Home} options={{animation:'fade'}} />
             <Stack.Screen name='LudoBoard' component={LudoBoardScreen} />
         </Stack.Navigator>
     )
