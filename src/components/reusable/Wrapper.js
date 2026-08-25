@@ -8,10 +8,10 @@ const Wrapper = (props) => {
     const { children, style } = props
     return (
         <ImageBackground
-            style={styles.container}
+            style={[styles.container]}
             source={BG}
         >
-            <SafeAreaView style={CommonStyles.container}>
+            <SafeAreaView style={[CommonStyles.container,style]}>
                 {children}
             </SafeAreaView>
         </ImageBackground>
@@ -23,8 +23,8 @@ export default Wrapper
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent:'center',
-        alignItems:'center',
+        justifyContent: 'center',
+        alignItems: 'center',
         // flexWrap:'wrap'
         // resizeMode: 'cover'
     }

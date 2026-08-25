@@ -12,3 +12,8 @@ export const selectPocketPileSelection = state => state.game.pileSelectionPlayer
 export const selectCellSelection = state => state.game.cellSelectionPlayer
 export const selectDiceTouch = state => state.game.touchDiceBlock
 export const selectFireWorks = state => state.game.fireworks
+
+
+// A game is "in progress" if at least one piece has left home and no winner has been declared yet
+export const selectIsGameInProgress = state =>
+    state.game.currentPositions.length > 0 && state.game.winner === null

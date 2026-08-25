@@ -8,6 +8,7 @@ import Arrow from '../../../assets/images/arrow.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCurrentPlayerChance, selectDiceNumber, selectDiceRolled } from '../../../redux/reducers/gameSelector'
 import { enableCellSelection, enablePileSelection, updateDiceNo, updatePlayerChance } from '../../../redux/reducers/gameSlice'
+import { playSound } from '../../../helpers/SoundUtility'
 
 const Dice = (props) => {
 
@@ -53,9 +54,9 @@ const Dice = (props) => {
     const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 
     const handleDicePress = async () => {
-        const newDiceNo = Math.floor(Math.random() * 6) + 1
-        // const newDiceNo = 6
-        // playSound('dice_roll');
+        // const newDiceNo = Math.floor(Math.random() * 6) + 1
+        const newDiceNo = 1
+        playSound('dice_roll');
         setDiceRolling(true);
         await delay(800)
         dispatch(updateDiceNo({ diceNo: newDiceNo }))

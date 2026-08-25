@@ -1,4 +1,5 @@
 import { SafeSpots, StarSpots, StartingCells, TurningPoints, VictoryStarts } from "../../helpers/PlotData";
+import { playSound } from "../../helpers/SoundUtility";
 import { selectCurrentPositions, selectDiceNumber } from "./gameSelector";
 import { announceWinner, disableTouch, unfreezeDice, updateFireworks, updatePlayerChance, updatePlayerPieceValue } from "./gameSlice";
 
@@ -59,8 +60,8 @@ export const handleForwardThunk = (playerNo, id, pos) => async (dispatch, getSta
                 travelCount: travelCount
             }),
         );
-        // playSound('pile_move');
-        await delay(200); //Consider reducing delay if possible
+        playSound('pile_move');
+        await delay(0); //Consider reducing delay if possible
     }
 
 
@@ -77,7 +78,7 @@ export const handleForwardThunk = (playerNo, id, pos) => async (dispatch, getSta
     const areDifferentIds = uniqueIds.size > 1;
 
     if (SafeSpots.includes(finalPath) || StarSpots.includes(finalPath)) {
-        // playSound('safe_spot')
+        playSound('safe_spot')
     }
 
     if (
@@ -91,7 +92,7 @@ export const handleForwardThunk = (playerNo, id, pos) => async (dispatch, getSta
 
         let backwardPath = StartingCells[no - 1];
         let i = enemyPiece.pos;
-        // playSound('collide')
+        playSound('collide')
         while (i !== backwardPath) {
             dispatch(
                 updatePlayerPieceValue({
@@ -124,13 +125,13 @@ export const handleForwardThunk = (playerNo, id, pos) => async (dispatch, getSta
     if (diceNo === 6 || travelCount == 57) {
         dispatch(updatePlayerChance({ chancePlayer: playerNo }));
         if (travelCount == 57) {
-            // playSound('home_win')
+            playSound('home_win')
             const finalPlayerState = getState();
             const playerAllPieces = finalPlayerState.game[`player${playerNo}`];
 
             if (checkWinningCriteria(playerAllPieces)) {
                 dispatch(announceWinner(playerNo));
-                // playSound('cheer', true);
+                playSound('cheer', true);
                 return;
             }
             dispatch(updateFireworks(true));

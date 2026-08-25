@@ -90,10 +90,10 @@ const Cell = (props) => {
                     )
                 })
             }
-            {/* {
+            {
                 !isArrowSpots && !isStarSpots &&
                 <Text>{id}</Text>
-            } */}
+            }
 
         </View>
     )
